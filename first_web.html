@@ -64,7 +64,7 @@
                 if (75 * totalDays > 100 * presentDays) {
                     var k = (75 * totalDays) - (100 * presentDays);
                     var l = Math.floor(k / 25);
-                    var w = Math.floor(l / 8);
+                    var w = 1+Math.floor(l / 8);
                     document.getElementById("output").innerHTML = "Number of days: " + w;
                 } else {
                     document.getElementById("output").innerHTML = "Number of days: 0";
