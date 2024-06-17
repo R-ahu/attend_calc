@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description"
+        content="We intend to help students from the agony of managing their attendance at workplace or college. This website helps them to calculate their attendance anywhere and manage their attendance easily.">
+    <title>THE ATTENDANCE CALCULATOR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            background-color: black;
+            padding: 20px;
+        }
+
+        section {
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            /* Add this to stack elements vertically */
+        }
+
+        dialog {
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            border: 1px solid #ccc;
+            padding: 5px;
+            box-sizing: border-box;
+            font-size: 15px;
+            margin: 10px;
+        }
+
+        button {
+            border: none;
+            padding: 12px;
+            background-color: green;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            color: white;
+        }
+
+        button:hover {
+            background-color: darkgreen;
+        }
+
+        output {
+            color: red;
+            padding: 10px;
+            font-size: 15px;
+        }
+    </style>
+    <script>
+        function calculateAndDisplayAttendance() {
+            var totalDays = parseInt(document.getElementById("totalDaysInput").value);
+            var presentDays = parseInt(document.getElementById("presentDaysInput").value);
+            if (totalDays <= presentDays) {
+                document.getElementById("output").innerHTML = "Number of days: 0";
+            } else {
+                if (75 * totalDays > 100 * presentDays) {
+                    var k = (75 * totalDays) - (100 * presentDays);
+                    var l = Math.floor(k / 25);
+                    var w = Math.floor(l / 8);
+                    document.getElementById("output").innerHTML = "Number of days: " + w;
+                } else {
+                    document.getElementById("output").innerHTML = "Number of days: 0";
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1>The attendance calculator</h1>
+        </div>
+    </header>
+    <section>
+        <div>
+            <dialog open>
+                Enter the total number of working days
+                <input type="number" id="totalDaysInput" name="Enter total days">
+                <br />
+                Enter the total number of days present
+                <input type="number" id="presentDaysInput">
+                <br />
+                <button onclick="calculateAndDisplayAttendance()">Submit</button>
+                <br /> <!-- Add a line break to separate the input from the output -->
+                <output id="output"></output> <!-- Move the output element inside the dialog -->
+            </dialog>
+        </div>
+    </section>
+</body>
+
+</html>
