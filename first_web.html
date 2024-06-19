@@ -59,7 +59,7 @@
             var totalDays = parseInt(document.getElementById("totalDaysInput").value);
             var presentDays = parseInt(document.getElementById("presentDaysInput").value);
             if (totalDays <= presentDays) {
-                document.getElementById("output").innerHTML = "Number of days: Attendance above 75%";
+                document.getElementById("output").innerHTML = "Number of days: Invalid data";
             } else {
                 if (75 * totalDays > 100 * presentDays) {
                     var k = (75 * totalDays) - (100 * presentDays);
