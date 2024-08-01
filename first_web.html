@@ -21,7 +21,8 @@
             justify-content: center;
             font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column; /* Add this to stack elements vertically */
+            flex-direction: column;
+            align-items: center;
         }
         dialog {
             background-color: white;
@@ -55,44 +56,70 @@
         }
     </style>
     <script>
-        function calculateAndDisplayAttendance() {
-            var totalDays = parseInt(document.getElementById("totalDaysInput").value);
-            var presentDays = parseInt(document.getElementById("presentDaysInput").value);
-            if (totalDays <= presentDays) {
-                document.getElementById("output").innerHTML = "Number of days: Invalid data";
-            } else {
-                if (75 * totalDays > 100 * presentDays) {
-                    var k = (75 * totalDays) - (100 * presentDays);
-                    var l = Math.floor(k / 25);
-                    var w = 1+Math.floor(l / 8);
-                    document.getElementById("output").innerHTML = "Number of days: " + w;
-                } else {
-                    document.getElementById("output").innerHTML = "Number of days: Attendance above 75%";
+        function parseCSV(csvData) {
+            var lines = csvData.split("\n");
+            var result = [];
+            for (var i = 0; i < lines.length; i++) {
+                var data = lines[i].split(",");
+                if (data.length == 2) {
+                    result.push({
+                        totalDays: parseInt(data[0]),
+                        presentDays: parseInt(data[1])
+                    });
                 }
             }
+            return result;
+        }
+
+        function handleFileSelect(event) {
+            var file = event.target.files[0];
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                var csvData = event.target.result;
+                var students = parseCSV(csvData);
+                displayResults(students);
+            };
+            reader.readAsText(file);
+        }
+
+        function displayResults(students) {
+            var results = "";
+            for (var i = 0; i < students.length; i++) {
+                var totalDays = students[i].totalDays;
+                var presentDays = students[i].presentDays;
+                
+                if (totalDays <= presentDays) {
+                    results += "Student " + (i + 1) + ": Invalid data<br/>";
+                } else {
+                    if (75 * totalDays > 100 * presentDays) {
+                        var k = (75 * totalDays) - (100 * presentDays);
+                        var l = Math.floor(k / 25);
+                        var w = 1 + Math.floor(l / 8);
+                        results += "Student " + (i + 1) + ": Number of days: " + w + "<br/>";
+                    } else {
+                        results += "Student " + (i + 1) + ": Attendance above 75%<br/>";
+                    }
+                }
+            }
+            document.getElementById("output").innerHTML = results;
         }
     </script>
 </head>
 <body>
 <header>
     <div>
-        <h1>The attendance calculator</h1>
+        <h1>The Attendance Calculator</h1>
     </div>
 </header>
 <section>
     <div>
         <dialog open>
-            Enter the number of periods held
-            <input type="number" id="totalDaysInput" name="Enter total days">
+            <input type="file" id="fileInput" accept=".csv" onchange="handleFileSelect(event)">
             <br/>
-            Enter the number of periods present
-            <input type="number" id="presentDaysInput">
-            <br/>
-            <button onclick="calculateAndDisplayAttendance()">Submit</button>
-            <br/> <!-- Add a line break to separate the input from the output -->
-            <output id="output"></output> <!-- Move the output element inside the dialog -->
+            <output id="output"></output>
         </dialog>
     </div>
 </section>
 </body>
+</html>
 </html>
